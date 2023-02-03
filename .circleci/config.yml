@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  slack: circleci/slack@4.12.1
+
 commands:
 
   # destroy-environment:
@@ -51,7 +54,9 @@ jobs:
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
-
+      - slack/notify:
+          event: fail
+          template: ALERT!ALERT!FAILED
   build-backend:
     docker:
       - image: circleci/node:13.8.0
