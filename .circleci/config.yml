@@ -76,7 +76,7 @@ jobs:
           key: backend-build
       - slack/notify:
           event: fail
-          template: ALERT!ALERT!FAILED
+          template: basic_fail_1
 
   test-frontend:
     docker:
