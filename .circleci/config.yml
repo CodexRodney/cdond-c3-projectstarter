@@ -69,9 +69,7 @@ jobs:
           command: |
              cd backend
              npm install
-             npm init @eslint/config
              npm audit fix --force
-             npx eslint --fix *
              npm run build
       - save_cache:
           paths: [backend/node_modules]
