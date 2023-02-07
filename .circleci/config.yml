@@ -15,9 +15,8 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            aws cloudformation delete-stack --stack-name \
-            udapeople-backend-<<parameters.workflowid>> \
-            udapeople-frontend-<<parameters.workflowid>>
+            aws cloudformation delete-stack --stack-name udapeople-backend-<<parameters.workflowid>> \
+            aws cloudformation delete-stack --stack-name udapeople-frontend-<<parameters.workflowid>>
 
   # revert-migrations:
   #   description: Revert the last migration if successfully run in the current workflow.
