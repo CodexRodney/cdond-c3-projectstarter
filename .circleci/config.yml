@@ -60,9 +60,7 @@ jobs:
           template: basic_fail_1
   build-backend:
     docker:
-      - image: circleci/node:13.8.0All this automated deployment stuff is great, but what if there’s something we didn’t plan for that made it through to production? What if the UdaPeople website is now down due to a runtime bug that our unit tests didn’t catch? Users won’t be able to access their data! This same situation can happen with manual deployments, too. In a manual deployment situation, what’s the first thing you do after you finish deploying? You do a “smoke test” by going to the site and making sure you can still log in or navigate around. You might do a quick curl on the backend to make sure it is responding. In an automated scenario, you can do the same thing through code. Let’s add a job to provide the UdaPeople team with a little sanity check.
-
-
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - restore_cache:
