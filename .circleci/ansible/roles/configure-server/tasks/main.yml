@@ -1,13 +1,13 @@
----
-- name: "Update apt packages"
-  apt:
-    update_cache: true
-    force_apt_get: true
-
 - name: "upgrade packages"
   become: true
   apt:
     upgrade: yes
+
+- name: "Update apt packages"
+  become: true
+  apt:
+    update_cache: true
+    force_apt_get: true
 
 - name: "Install node and npm"
   apt:
