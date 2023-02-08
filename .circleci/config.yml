@@ -272,28 +272,45 @@ jobs:
           command: |
             cd frontend
             npm install
+            npm audit fix
+            npm audit fix --force
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - destroy-environment:
           workflowid: "${CIRCLE_WORKFLOW_ID:0:7}"      
                     
-#   deploy-backend:
-#     docker:
-#       # Docker image here that supports Ansible
-#     steps:
-#       # Checkout code from git
-#       # Add ssh keys with fingerprint
-#       # attach workspace
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # your code here
-#       - run:
-#           name: Deploy backend
-#           command: |
-#             # your code here
-#       # Here's where you will add some code to rollback on failure  
+  deploy-backend:
+    docker:
+      - image: cimg/aws:2023.01
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["93:4f:64:91:51:15:04:e1:00:40:2d:1e:62:c7:7a:e3"]
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Install Ansible
+          command: |
+            sudo apt update
+            sudo apt install ansible -y
+      - run:
+          name: Install Node and Npm
+          command: |
+            sudo apt update
+            sudo apt-get install nodejs npm
+            node --version
+      - run:
+          name: Install tar and gzip
+          command: |
+            sudo apt update
+            sudo apt install gzip
+            sudo apt install tar
+      - run:
+          name: Deploy backend
+          command: |
+            # your code here
+      # Here's where you will add some code to rollback on failure  
 
 #   smoke-test:
 #     docker:
