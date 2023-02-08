@@ -258,10 +258,6 @@ jobs:
             sudo apt update
             sudo apt-get install nodejs npm
       - run:
-          name: Install tar and gz
-          command: |
-
-      - run:
           name: Get backend url
           command: |
             # your code here
@@ -378,8 +374,8 @@ workflows:
           requires: [deploy-infrastructure]
       - run-migrations:
           requires: [configure-infrastructure]
-      # - deploy-frontend:
-      #     requires: [run-migrations]
+      - deploy-frontend:
+          requires: [run-migrations]
       # - deploy-backend:
       #     requires: [run-migrations]
       # - smoke-test:
