@@ -313,13 +313,8 @@ jobs:
           command: |
             sudo apt update
             sudo apt install ansible -y
-      - run:
-          name: Install Node and Npm
-          command: |
-            sudo apt update
-            curl -fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash -
-            sudo apt update
-            sudo apt install nodejs
+      - install-awscli
+      - install-nodejs 
       - run:
           name: Install tar and gzip
           command: |
