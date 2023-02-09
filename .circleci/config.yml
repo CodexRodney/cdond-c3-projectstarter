@@ -36,7 +36,7 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            aws s3 rm s3://udapeople-$<<parameters.workflowid>>
+            aws s3 rm s3://udapeople-<<parameters.workflowid>>
             aws cloudformation delete-stack --stack-name udapeople-backend-<<parameters.workflowid>>
             aws cloudformation delete-stack --stack-name udapeople-frontend-<<parameters.workflowid>>
 
@@ -323,13 +323,12 @@ jobs:
             sudo apt install gzip
             sudo apt install tar
       - run:
-          name: Packaging Backend
+          name: Package Backend
           command: |
             cd backend
-            npm i
             npm run build
-            # Zip the directory
-            tar -C backend -czvf artifact.tar.gz dist/* package*
+            tar -czf artifact.tar.gz dist/* package*
+
             cd ..
             cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
       - run:
