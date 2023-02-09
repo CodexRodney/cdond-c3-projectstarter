@@ -18,24 +18,26 @@ commands:
             aws cloudformation delete-stack --stack-name udapeople-backend-<<parameters.workflowid>>
             aws cloudformation delete-stack --stack-name udapeople-frontend-<<parameters.workflowid>>
 
-  # revert-migrations:
-  #   description: Revert the last migration if successfully run in the current workflow.
-  #   parameters:
-  #     # Add parameter here     
-  #   steps:
-  #     - run:
-  #         name: Revert migrations
-  #         # Add when this will run
-  #         command: |
-  #           # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-  #           SUCCESS = 1
-  #           if(( $SUCCESS==1 )); 
-  #           then
-  #           #  cd ~/project/backend
-  #           #  npm install
-  #           #  Add revert code here. You can find this in the Getting Started section.
-  #             exit 1
-  #           fi
+  revert-migrations:
+    description: Revert the last migration if successfully run in the current workflow.
+    parameters:
+      workflow_id:
+        default: "${CIRCLE_WORKFLOW_ID::07}"
+        type: string    
+    steps:
+      - run:
+          name: Revert migrations
+          when: on_fail
+          command: |
+            # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
+            SUCCESS=$(curl --insecure  https://kvdb.io/9GE4jRtKznmVKRfvdBABBe/migration_\
+            << parameters.workflow_id >>)
+            if(( $SUCCESS==1 )); 
+            then
+              cd ~/project/backend
+              npm install
+              npm run migration:revert
+            fi
             
 jobs:
   build-frontend:
@@ -191,7 +193,7 @@ jobs:
           paths:
             - project/.circleci/ansible/inventory.txt
       - destroy-environment:
-          workflowid: "${CIRCLE_WORKFLOW_ID:0:7}"  
+          workflowid: "${CIRCLE_WORKFLOW_ID::07}"  
 
   configure-infrastructure:
     docker:
@@ -255,9 +257,7 @@ jobs:
       - run:
           name: Install Node and Npm
           command: |
-            sudo apt update
-            curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-            sudo apt update
+            curl -fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash -
             sudo apt install nodejs
             # verify node and npm versions
             node --version
@@ -322,7 +322,8 @@ jobs:
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
-      # Here's where you will add some code to rollback on failure  
+      - destroy-environment:
+          workflowid: "${CIRCLE_WORKFLOW_ID:0:7}" 
 
 #   smoke-test:
 #     docker:
