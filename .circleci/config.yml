@@ -301,7 +301,7 @@ jobs:
           name: Install Node and Npm
           command: |
             sudo apt update
-            curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+            curl -fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash -
             sudo apt-get install -y Node.js 
       - run:
           name: Install tar and gzip
