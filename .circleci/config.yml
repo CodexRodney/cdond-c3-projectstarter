@@ -258,6 +258,7 @@ jobs:
           name: Install Node and Npm
           command: |
             curl -fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+            sudo apt update
             sudo apt install nodejs
             # verify node and npm versions
             node --version
@@ -302,6 +303,7 @@ jobs:
           command: |
             sudo apt update
             curl -fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+            sudo apt update
             sudo apt-get install -y Node.js 
       - run:
           name: Install tar and gzip
@@ -321,6 +323,7 @@ jobs:
             cd .circleci/ansible
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
+            cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
             ansible-playbook -i inventory.txt deploy-backend.yml
       - destroy-environment:
           workflowid: "${CIRCLE_WORKFLOW_ID:0:7}" 
