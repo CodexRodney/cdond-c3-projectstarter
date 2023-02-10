@@ -312,7 +312,7 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
-            apk add --update --no-cache tar gzip nodejs npm aws-cli ansible
+            apk add --update --no-cache tar gzip nodejs npm aws-cli ansible curl
       # - run:
       #     name: Install Ansible
       #     command: |
@@ -335,6 +335,8 @@ jobs:
             cd ..
             # Zip the directory
             tar -C backend -czvf artifact.tar.gz .
+            cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
+
       - run:
           name: Deploy backend
           command: |
