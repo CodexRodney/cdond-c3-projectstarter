@@ -320,12 +320,12 @@ jobs:
       #       sudo apt install ansible -y
       # - install-awscli
       # - install-nodejs 
-      - run:
-          name: Install tar and gzip
-          command: |
-            sudo apt update
-            sudo apt install gzip
-            sudo apt install tar
+      # - run:
+      #     name: Install tar and gzip
+      #     command: |
+      #       sudo apt update
+      #       sudo apt install gzip
+      #       sudo apt install tar
       - run:
           name: Package Backend
           command: |
