@@ -302,7 +302,7 @@ jobs:
                     
   deploy-backend:
     docker:
-      - image: cimg/python:3.10
+      - image: python:3.7-alpine-3.16
     steps:
       - checkout
       - add_ssh_keys:
@@ -310,12 +310,16 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:
-          name: Install Ansible
+          name: Install Dependencies
           command: |
-            sudo apt update
-            sudo apt install ansible -y
-      - install-awscli
-      - install-nodejs 
+            apk add --update --no-cache tar gzip nodejs npm aws-cli ansible
+      # - run:
+      #     name: Install Ansible
+      #     command: |
+      #       sudo apt update
+      #       sudo apt install ansible -y
+      # - install-awscli
+      # - install-nodejs 
       - run:
           name: Install tar and gzip
           command: |
