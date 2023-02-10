@@ -341,10 +341,14 @@ jobs:
 
   smoke-test:
     docker:
-      - image: cimg/base:stable
+      - image: python:3.7-alpine3.16
     steps:
       - checkout
-      - install-awscli
+      - run:
+          name: Install dependencies
+          command: |
+            # your code here
+            apk add --update --no-cache curl aws-cli
       - run:
           name: Get backend url
           command: |
