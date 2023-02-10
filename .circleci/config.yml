@@ -345,6 +345,7 @@ jobs:
           workflowid: "${CIRCLE_WORKFLOW_ID:0:7}"
       - revert-migrations
 
+
   smoke-test:
     docker:
       - image: cimg/base:stable
